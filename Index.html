@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Random Video Channel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root { color-scheme: dark; }
+    body { margin:0; background:#000; color:#fff; font-family:system-ui, sans-serif; display:grid; place-items:center; min-height:100dvh; }
+    .wrap { width:min(1200px, 100%); padding:16px; }
+    .bar { display:flex; gap:8px; align-items:center; justify-content:center; flex-wrap:wrap; margin-top:12px; }
+    .now { font-size:14px; opacity:.8; }
+    iframe {
+      width:100%;
+      aspect-ratio:16/9;
+      border:none;
+      border-radius:12px;
+      box-shadow:0 8px 30px rgba(0,0,0,.5);
+      background:#111;
+    }
+    button {
+      padding:10px 16px; font-size:16px; cursor:pointer; border:none; border-radius:999px;
+      background:#39a6ff; color:#000; font-weight:600;
+    }
+    button:hover { filter:brightness(1.1); }
+    .ghost { background:#2ecc71; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <iframe id="videoFrame" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+
+    <div class="bar">
+      <button id="change">Change Channel</button>
+      <button id="next" class="ghost">Next (same channel)</button>
+      <span class="now" id="label"></span>
+    </div>
+  </div>
+
+  <script>
+    // Archive.org item IDs mapped to playable filenames inside each item
+    const collections = {
+      'bugs-bunny': [
+        "Ballot Box Bunny.mp4",
+        "Looney-Tunes-14-Carrot-Rabbit.mp4",
+        "Looney-Tunes-A-Hare-Grows-in-Manhattan.mp4",
+        "Looney-Tunes-A-Star-Is-Bored.mp4",
+        "Looney-Tunes-A-Wild-Hare.mp4",
+        "Looney-Tunes-Acrobatty-Bunny.mp4",
+        "Looney-Tunes-Backwoods-Bunny.mp4",
+        "Looney-Tunes-Baseball-Bugs.mp4",
+        "Looney-Tunes-Bewitched-Bunny.mp4",
+        "Looney-Tunes-Big-House-Bunny.mp4",
+        "Looney-Tunes-Bonanza-Bunny.mp4",
+        "Looney-Tunes-Broom-Stick-Bunny.mp4",
+        "Looney-Tunes-Buccaneer-Bunny.mp4",
+        "Looney-Tunes-Buckaroo-Bugs.mp4",
+        "Looney-Tunes-Bugs-Bonnets.mp4",
+        "Looney-Tunes-Bugs-Bunny-And-The-Three-Bears.mp4",
+        "Looney-Tunes-Bugs-Bunny-Gets-the-Boid.mp4",
+        "Looney-Tunes-Bugs-Bunny-Rides-Again.mp4",
+        "Looney-Tunes-Bugs-and-Thugs.mp4",
+        "Looney-Tunes-Bunker-Hill-Bunny.mp4",
+        "Looney-Tunes-Captain-Hareblower.mp4",
+        "Looney-Tunes-Devil-May-Hare.mp4",
+        "Looney-Tunes-Duck-Rabbit-Duck.mp4",
+        "Looney-Tunes-Easter-Yeggs.mp4",
+        "Looney-Tunes-Elmers-Pet-Rabbit.mp4",
+        "Looney-Tunes-Gorilla-My-Dreams.mp4",
+        "Looney-Tunes-Hair-Raising-Hare.mp4",
+        "Looney-Tunes-Hare-Brush.mp4",
+        "Looney-Tunes-Hare-Do.mp4",
+        "Looney-Tunes-Hare-Force.mp4",
+        "Looney-Tunes-Hare-Lift.mp4",
+        "Looney-Tunes-Hare-Remover.mp4",
+        "Looney-Tunes-Hare-Ribbin.mp4",
+        "Looney-Tunes-Hare-Tonic.mp4",
+        "Looney-Tunes-Hare-Trigger.mp4",
+        "Looney-Tunes-Hare-um-Scare-um.mp4",
+        "Looney-Tunes-Haredevil-Hare.mp4",
+        "Looney-Tunes-Hiawathas-Rabbit-Hunt.mp4",
+        "Looney-Tunes-High-Diving-Hare.mp4",
+        "Looney-Tunes-His-Hare-Raising-Tale.mp4"
+      ],
+      'MSBTVSeries': [
+        "01 Gets Lost in Space.mp4",
+        "02 For Lunch.mp4",
+        "03 Inside Ralphie.mp4",
+        "04 Gets Eaten.mp4",
+        "05 Hops Home.mp4",
+        "06 Meets the Rot Squad.mp4",
+        "07 All Dried Up.mp4",
+        "08 In the Haunted House.mp4",
+        "09 Gets Ready, Set, Dough.mp4",
+        "10 Plays Ball.mp4",
+        "11 Goes to Seed.mp4",
+        "12 Gets Ants in Its Pants.mp4",
+        "13 Kicks Up a Storm.mp4",
+        "14 Blows Its Top.mp4",
+        "15 Flexes Its Muscles.mp4",
+        "16 The Busasaurus.mp4",
+        "17 Going Batty.mp4",
+        "18 Butterfly and the Bog Beast.mp4",
+        "19 Wet All Over.mp4",
+        "20 In a Pickle.mp4",
+        "21 Revving Up.mp4",
+        "22 Taking Flight.mp4",
+        "23 Getting Energized.mp4",
+        "24 Out of This World.mp4",
+        "25 Cold Feet.mp4",
+        "26 Ups and Downs.mp4",
+        "27 In a Beehive.mp4",
+        "28 In the Arctic.mp4",
+        "29 Spins a Web.mp4",
+        "30 Under Construction.mp4",
+        "31 Gets a Bright Idea.mp4",
+        "32 Shows and Tells.mp4",
+        "33 Makes a Rainbow.mp4",
+        "34 Goes Upstream.mp4",
+        "35 Works Out.mp4",
+        "36 Gets Planted.mp4"
+      ],
+      'mr_wizards_world': [
+        "[Ep1].mp4","[Ep2].mp4","[Ep3].mp4","[Ep4].mp4","[Ep5].mp4","[Ep6].mp4","[Ep7].mp4","[Ep8].mp4","[Ep9].mp4","[Ep10].mp4","[Ep11].mp4","[Ep12].mp4","[Ep13].mp4","[Ep14].mp4","[Ep15].mp4","[Ep16].mp4","[Ep17].mp4","[Ep18].mp4","[Ep19].mp4","[Ep20].mp4","[Ep21].mp4","[Ep22].mp4","[Ep23].mp4","[Ep24].mp4","[Ep25].mp4","[Ep26].mp4","[Ep27].mp4","[Ep28].mp4","[Ep29].mp4","[Ep30].mp4","[Ep31].mp4","[Ep32].mp4"
+      ]
+    };
+
+    const frame = document.getElementById('videoFrame');
+    const label = document.getElementById('label');
+    const keys = Object.keys(collections);
+
+    let currentChannel = null;
+    let lastPick = { key: null, file: null };
+
+    function pickRandom(arr, exceptIndex = -1) {
+      if (!arr.length) return null;
+      let i;
+      do { i = Math.floor(Math.random() * arr.length); }
+      while (arr.length > 1 && i === exceptIndex);
+      return [arr[i], i];
+    }
+
+function setEmbed(key, file) {
+  let src;
+  if (key === "mr_wizards_world") {
+    // Embed whole item since individual file embeds don't work
+    src = `https://archive.org/embed/${key}?autoplay=1&playlist=1`;
+  } else {
+    src = `https://archive.org/embed/${key}/${encodeURIComponent(file)}?autoplay=1&playlist=1`;
+  }
+  frame.src = src;
+  label.textContent = `Now playing: ${key} — ${file}`;
+  lastPick = { key, file };
+  currentChannel = key;
+}
+
+
+    // Change to a new channel (different IA item), random file within it
+    function changeChannel() {
+      const [newKey] = pickRandom(keys, keys.indexOf(currentChannel));
+      const files = collections[newKey];
+      const [file] = pickRandom(files);
+      setEmbed(newKey, file);
+    }
+
+    // Stay in same channel, pick a different episode/file
+    function nextInChannel() {
+      const key = currentChannel ?? keys[Math.floor(Math.random() * keys.length)];
+      const files = collections[key];
+      const idx = files.indexOf(lastPick.file);
+      const [file] = pickRandom(files, idx);
+      setEmbed(key, file);
+    }
+
+    document.getElementById('change').addEventListener('click', changeChannel);
+    document.getElementById('next').addEventListener('click', nextInChannel);
+
+    // First load
+    window.addEventListener('load', changeChannel);
+  </script>
+</body>
+</html>
