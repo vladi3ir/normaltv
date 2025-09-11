@@ -424,7 +424,7 @@
 function setEmbed(key, file) {
   let src;
   if (key === "mr_wizards_world" || key === "hard-hat-harry-1995-tv-series" || key === "billnyethescienceguythecompleteseries-07-28-2021" || key === "BNTSG_2" || key === "RichardScarrysBusyTown" || key === "TheWorldOfPeterRabbitFriendsEp.7TheTaleOfTomKittenJemimaPuddleDuck" || key === "art-attack-uk-vhs-and-dvd-collection") {
-    // Embed whole item with playlist for collections where individual files don't work
+    // Force playlist embed for these collections
     src = `https://archive.org/embed/${key}?autoplay=1&playlist=1`;
   } else {
     src = `https://archive.org/embed/${key}/${encodeURIComponent(file)}?autoplay=1&playlist=1`;
@@ -460,6 +460,7 @@ function setEmbed(key, file) {
 </body>
 
 </html>
+
 
 
 
