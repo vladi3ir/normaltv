@@ -5,7 +5,7 @@
   <title>Random Video Channel</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
-    :root { color-scheme: dark; }
+ :root { color-scheme: dark; }
 body { margin:0; background:#000; color:#fff; font-family:system-ui, sans-serif; display:grid; place-items:center; min-height:100dvh; }
 .wrap { width:min(1200px, 100%); padding:16px; }
 .bar { 
@@ -13,17 +13,17 @@ body { margin:0; background:#000; color:#fff; font-family:system-ui, sans-serif;
   gap:8px; 
   align-items:center; 
   justify-content:center; 
-  flex-wrap:wrap; 
   margin-top:12px; 
   min-width: 0; /* Allow flex items to shrink */
+  flex-wrap: nowrap; /* Prevent wrapping */
 }
 .now { 
   font-size:14px; 
   opacity:.8; 
-  max-width: 600px; /* Fixed max width for label */
-  overflow: hidden; /* Hide overflow text */
-  text-overflow: ellipsis; /* Add ellipsis for long text */
-  white-space: nowrap; /* Prevent text wrapping */
+  max-width: 500px; /* Reduced for tighter control */
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  white-space: nowrap; 
 }
 iframe {
   width:100%;
@@ -475,6 +475,7 @@ function setEmbed(key, file) {
 </body>
 
 </html>
+
 
 
 
