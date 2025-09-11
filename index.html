@@ -14,16 +14,14 @@ body { margin:0; background:#000; color:#fff; font-family:system-ui, sans-serif;
   align-items:center; 
   justify-content:center; 
   margin-top:12px; 
-  min-width: 0; /* Allow flex items to shrink */
-  flex-wrap: nowrap; /* Prevent wrapping */
+  min-width: 0; 
 }
 .now { 
   font-size:14px; 
   opacity:.8; 
-  max-width: 500px; /* Reduced for tighter control */
-  overflow: hidden; 
-  text-overflow: ellipsis; 
-  white-space: nowrap; 
+  display:block; /* Change to block to stack below */
+  text-align:center; /* Center the text */
+  margin-top:8px; /* Add some space above the label */
 }
 iframe {
   width:100%;
@@ -475,6 +473,7 @@ function setEmbed(key, file) {
 </body>
 
 </html>
+
 
 
 
