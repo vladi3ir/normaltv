@@ -5,7 +5,7 @@
   <title>Random Video Channel</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
- :root { color-scheme: dark; }
+:root { color-scheme: dark; }
 body { margin:0; background:#000; color:#fff; font-family:system-ui, sans-serif; display:grid; place-items:center; min-height:100dvh; }
 .wrap { width:min(1200px, 100%); padding:16px; }
 .bar { 
@@ -19,17 +19,37 @@ body { margin:0; background:#000; color:#fff; font-family:system-ui, sans-serif;
 .now { 
   font-size:14px; 
   opacity:.8; 
-  display:block; /* Change to block to stack below */
-  text-align:center; /* Center the text */
-  margin-top:8px; /* Add some space above the label */
+  display:block; 
+  text-align:center; 
+  margin-top:8px; 
 }
 iframe {
   width:100%;
   aspect-ratio:16/9;
   border:none;
   border-radius:12px;
-  box-shadow:0 8px 30px rgba(0,0,0,.5);
-  background:#111;
+  position: relative; /* For layering the frame */
+  background:#111; /* Screen background */
+  box-shadow: 0 8px 30px rgba(0,0,0,.5); /* Base shadow */
+}
+/* TV frame styling */
+iframe::before {
+  content: '';
+  position: absolute;
+  top: -20px; left: -20px; right: -20px; bottom: -20px;
+  background: #333; /* Frame color */
+  border: 4px solid #555; /* Bezel */
+  border-radius: 20px; /* Rounded edges */
+  z-index: -1; /* Behind the iframe */
+}
+/* Optional antenna (simple version) */
+iframe::after {
+  content: '';
+  position: absolute;
+  top: -40px; left: 50%;
+  width: 2px; height: 30px;
+  background: #888;
+  transform: translateX(-50%);
 }
 button {
   padding:10px 16px; font-size:16px; cursor:pointer; border:none; border-radius:999px;
@@ -473,6 +493,7 @@ function setEmbed(key, file) {
 </body>
 
 </html>
+
 
 
 
