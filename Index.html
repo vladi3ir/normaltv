@@ -161,7 +161,6 @@
 function setEmbed(key, file) {
   let src;
   if (key === "mr_wizards_world") {
-    // Embed whole item since individual file embeds don't work
     src = `https://archive.org/embed/${key}?autoplay=1&playlist=1`;
   } else {
     src = `https://archive.org/embed/${key}/${encodeURIComponent(file)}?autoplay=1&playlist=1`;
@@ -171,6 +170,7 @@ function setEmbed(key, file) {
   lastPick = { key, file };
   currentChannel = key;
 }
+
 
 
     // Change to a new channel (different IA item), random file within it
@@ -198,5 +198,6 @@ function setEmbed(key, file) {
   </script>
 </body>
 </html>
+
 
 
