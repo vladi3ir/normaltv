@@ -156,11 +156,11 @@
       while (arr.length > 1 && i === exceptIndex);
       return [arr[i], i];
     }
-
 function setEmbed(key, file) {
   let src;
-  if (key === "mr_wizards_world" || key === "cosmos_1980") {
-    // Embed the whole IA item as a playlist
+  if (key === "cosmos_1980") {
+    src = `https://archive.org/embed/cosmos_1980?autoplay=1&playlist=1`;
+  } else if (key === "mr_wizards_world") {
     src = `https://archive.org/embed/${key}?autoplay=1&playlist=1`;
   } else {
     src = `https://archive.org/embed/${key}/${encodeURIComponent(file)}?autoplay=1&playlist=1`;
@@ -170,9 +170,6 @@ function setEmbed(key, file) {
   lastPick = { key, file };
   currentChannel = key;
 }
-
-
-
 
     // Change to a new channel (different IA item), random file within it
 function changeChannel() {
@@ -203,6 +200,7 @@ function changeChannel() {
   </script>
 </body>
 </html>
+
 
 
 
