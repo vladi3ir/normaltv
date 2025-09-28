@@ -175,12 +175,16 @@ function setEmbed(key, file) {
 
 
     // Change to a new channel (different IA item), random file within it
-    function changeChannel() {
-      const [newKey] = pickRandom(keys, keys.indexOf(currentChannel));
-      const files = collections[newKey];
-      const [file] = pickRandom(files);
-      setEmbed(newKey, file);
-    }
+function changeChannel() {
+  const [newKey] = pickRandom(keys, keys.indexOf(currentChannel));
+  console.log('Changing channel to', newKey);   // <-- add this
+  const files = collections[newKey];
+  console.log('Files found:', files);
+  const [file] = pickRandom(files);
+  console.log('File picked:', file);
+  setEmbed(newKey, file);
+}
+
 
     // Stay in same channel, pick a different episode/file
     function nextInChannel() {
@@ -199,6 +203,7 @@ function setEmbed(key, file) {
   </script>
 </body>
 </html>
+
 
 
 
