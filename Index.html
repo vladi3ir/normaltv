@@ -159,7 +159,8 @@
 
 function setEmbed(key, file) {
   let src;
-  if (key === "mr_wizards_world") {
+  if (key === "mr_wizards_world" || key === "cosmos_1980") {
+    // Embed the whole IA item as a playlist
     src = `https://archive.org/embed/${key}?autoplay=1&playlist=1`;
   } else {
     src = `https://archive.org/embed/${key}/${encodeURIComponent(file)}?autoplay=1&playlist=1`;
@@ -169,6 +170,7 @@ function setEmbed(key, file) {
   lastPick = { key, file };
   currentChannel = key;
 }
+
 
 
 
@@ -197,6 +199,7 @@ function setEmbed(key, file) {
   </script>
 </body>
 </html>
+
 
 
 
